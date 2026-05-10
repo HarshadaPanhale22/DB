@@ -2,24 +2,28 @@
    
 
 from collections import deque                             
+from collections import deque
 
 class Graph:
+
     def __init__(self):
-        # Adjacency list representation
         self.graph = {}
 
-    # Add an undirected edge
+    # Add edge
     def add_edge(self, u, v):
+
         if u not in self.graph:
             self.graph[u] = []
+
         if v not in self.graph:
             self.graph[v] = []
 
         self.graph[u].append(v)
         self.graph[v].append(u)
 
-    # Depth First Search (DFS)
+    # DFS
     def dfs(self, start, visited=None):
+
         if visited is None:
             visited = set()
 
@@ -27,24 +31,32 @@ class Graph:
         visited.add(start)
 
         for neighbor in self.graph[start]:
+
             if neighbor not in visited:
                 self.dfs(neighbor, visited)
 
-    # Breadth First Search (BFS)
+    # BFS
     def bfs(self, start):
+
         visited = set()
         queue = deque([start])
 
         visited.add(start)
-        while queue:
-            vertex = queue.popleft()
-            print(vertex, end=" ")
 
-            for neighbor in self.graph[vertex]:
+        while queue:
+
+            node = queue.popleft()
+
+            print(node, end=" ")
+
+            for neighbor in self.graph[node]:
+
                 if neighbor not in visited:
                     visited.add(neighbor)
                     queue.append(neighbor)
-#example
+
+
+# Create graph
 g = Graph()
 
 g.add_edge(0, 1)
@@ -53,20 +65,21 @@ g.add_edge(1, 3)
 g.add_edge(1, 4)
 g.add_edge(2, 5)
 g.add_edge(2, 6)
-g.add_edge(3,7)
-g.add_edge(3,8)
-g.add_edge(4,9)
+
+# DFS
 print("DFS Traversal:")
 g.dfs(0)
 
+# BFS
 print("\n\nBFS Traversal:")
 g.bfs(0)
-
 --------------------------------------------------------------------------------------------------------------------------
 2.Implement A star Algorithm for any game search problem.
 import heapq
 
-# Maze (0 = open path, 1 = wall)
+import heapq
+
+# Maze
 maze = [
     [0, 0, 0, 0],
     [1, 1, 0, 1],
@@ -84,10 +97,7 @@ def heuristic(a, b):
 # A* Algorithm
 def a_star(maze, start, goal):
 
-    rows = len(maze)
-    cols = len(maze[0])
-
-    pq = []   # Priority Queue
+    pq = []
     heapq.heappush(pq, (0, start))
 
     visited = set()
@@ -97,7 +107,7 @@ def a_star(maze, start, goal):
 
         cost, current = heapq.heappop(pq)
 
-        # Goal reached
+        # Goal found
         if current == goal:
 
             path = []
@@ -113,20 +123,20 @@ def a_star(maze, start, goal):
 
         visited.add(current)
 
-        # Move directions
-        directions = [(0,1), (1,0), (0,-1), (-1,0)]
+        # Directions
+        moves = [(0,1), (1,0), (0,-1), (-1,0)]
 
-        for d in directions:
+        for move in moves:
 
-            new_row = current[0] + d[0]
-            new_col = current[1] + d[1]
+            row = current[0] + move[0]
+            col = current[1] + move[1]
 
-            next_node = (new_row, new_col)
+            next_node = (row, col)
 
-            # Check valid position
-            if (0 <= new_row < rows and
-                0 <= new_col < cols and
-                maze[new_row][new_col] == 0 and
+            # Check valid path
+            if (0 <= row < 4 and
+                0 <= col < 4 and
+                maze[row][col] == 0 and
                 next_node not in visited):
 
                 priority = heuristic(next_node, goal)
@@ -137,7 +147,8 @@ def a_star(maze, start, goal):
 
     return None
 
-# Run Algorithm
+
+# Run
 path = a_star(maze, start, goal)
 
 if path:
@@ -148,8 +159,8 @@ else:
 --------------------------------------------------------------------------------------------------------------
 
 3.Greedy search algorithm for any of the following application Minimum Spanning Tree
-import heapq
 
+import heapq
 class Graph:
     def __init__(self, vertices):
         self.v = vertices
@@ -274,119 +285,174 @@ for i in range(N):
 
 5. Develop an elementary catboat for any suitable customer interaction application.
 
-    import random 
-class CustomerChatbot: 
-def __init__(self, name): 
-self.name = name 
-def respond(self, message): 
-message = message.lower()      
-# Greeting responses 
-greetings = ["Hello! How can I assist you today?", 
-"Hi there! What can I help you with?", 
-"Welcome! How may I help you?"] 
-# Product information 
-product_info = "We offer laptops, smartphones, and accessories. Which product would you 
-like information about?" 
-# Pricing information 
-pricing_info = "Our prices start from ₹10,000. Please specify the product for exact pricing. 
-# Order tracking 
-order_info = "Please provide your order ID to track your order. 
-# Complaint response 
-complaint_response = "I'm sorry for the inconvenience. Please describe your issue in detail 
-so I can assist you.  
-# Goodbye responses 
-goodbyes = ["Thank you for visiting! Have a great day!", 
-"Goodbye! Feel free to contact us again.", 
-"Take care! We are always here to help."] 
-# Intent detection using keywords 
-if any(word in message for word in ["hello", "hi", "hey"]): 
-return random.choice(greetings) 
-elif any(word in message for word in ["product", "item", "service"]): 
-return product_info 
-elif any(word in message for word in ["price", "cost", "rate"]): 
-return pricing_info 
-elif any(word in message for word in ["order", "track", "delivery"]): 
-return order_info 
-elif any(word in message for word in ["complaint", "problem", "issue"]): 
-return complaint_response 
-elif any(word in message for word in ["bye", "goodbye", "thank you"]): 
-return random.choice(goodbyes) 
-else: 
-return "I'm sorry, I didn't understand your request. Could you please rephrase? 
-# Create chatbot instance 
-chatbot = CustomerChatbot("Customer Support Bot" 
-print("---- Welcome to Customer Support ----") 
-while True: 
-user_input = input("You: ") 
-response = chatbot.respond(user_input) 
-print(chatbot.name + ": " + response) 
-if any(word in user_input.lower() for word in ["bye", "goodbye"]): 
-break
+import random
 
+class CustomerChatbot:
+
+    def __init__(self, name):
+        self.name = name
+
+    def respond(self, message):
+
+        message = message.lower()
+
+        # Greetings
+        greetings = [
+            "Hello! How can I help you?",
+            "Hi there!",
+            "Welcome!"
+        ]
+
+        # Responses
+        product_info = "We sell laptops and mobiles."
+
+        pricing_info = "Prices start from ₹10,000."
+
+        order_info = "Please provide your order ID."
+
+        complaint_response = "Sorry for the issue. Please explain your problem."
+
+        goodbyes = [
+            "Thank you! Goodbye!",
+            "Have a nice day!",
+            "Visit again!"
+        ]
+
+        # Check message
+        if any(word in message for word in ["hello", "hi", "hey"]):
+            return random.choice(greetings)
+
+        elif any(word in message for word in ["product", "item"]):
+            return product_info
+
+        elif any(word in message for word in ["price", "cost"]):
+            return pricing_info
+
+        elif any(word in message for word in ["order", "track"]):
+            return order_info
+
+        elif any(word in message for word in ["complaint", "problem"]):
+            return complaint_response
+
+        elif any(word in message for word in ["bye", "goodbye"]):
+            return random.choice(goodbyes)
+
+        else:
+            return "Sorry, I did not understand."
+
+
+# Create chatbot
+chatbot = CustomerChatbot("Customer Support Bot")
+
+print("=== Welcome to Customer Support ===")
+
+while True:
+
+    user_input = input("You: ")
+
+    response = chatbot.respond(user_input)
+
+    print(chatbot.name + ":", response)
+
+    if "bye" in user_input.lower():
+        break
 -----------------------------------------------------------------------------------------------------
 
 6.Implement any one of the following Expert System Information management
 
-      books = [] 
-while True: 
-print("\nLibrary Management System") 
-print("1. Add Book") 
-print("2. View Books") 
-print("3. Search Book") 
-print("4. Delete Book") 
-print("5. Exit") 
-choice = input("Enter your choice: ") 
-# Add Book 
-if choice == "1": 
-book_id = input("Enter Book ID: ") 
-title = input("Enter Book Title: ") 
-author = input("Enter Author Name: ") 
-year = input("Enter Year: ") 
-book = { 
-"id": book_id, 
-"title": title, 
-"author": author, 
-"year": year 
-} 
-books.append(book) 
-print("Book added successfully.") 
-# View Books 
-elif choice == "2": 
-if len(books) == 0: 
-print("No books available.") 
-else: 
-for book in books: 
-print("ID:", book["id"]) 
-print("Title:", book["title"]) 
-print("Author:", book["author"]) 
-print("Year:", book["year"]) 
-print("-------------------") 
-# Search Book 
-elif choice == "3": 
-search = input("Enter title to search: ") 
-found = False 
-for book in books: 
-if search.lower() == book["title"].lower(): 
-print("Book Found:") 
-print(book) 
-found = True 
-if not found: 
-print("Book not found.") 
-# Delete Book 
-elif choice == "4": 
-delete_id = input("Enter Book ID to delete: ") 
-found = False 
-for book in books: 
-if delete_id == book["id"]: 
-books.remove(book) 
-print("Book deleted successfully.") 
-found = True 
-break 
-if not found: 
-print("Book not found.") 
-# Exit 
-elif choice == "5": 
-print("Thank you!") 
-break 
-else: 
-print("Invalid choice.")
+    # Empty book list
+books = []
+
+while True:
+
+    print("\n=== Library Management System ===")
+    print("1. Add Book")
+    print("2. View Books")
+    print("3. Search Book")
+    print("4. Delete Book")
+    print("5. Exit")
+
+    choice = input("Enter your choice: ")
+
+    # Add Book
+    if choice == "1":
+
+        book_id = input("Enter Book ID: ")
+        title = input("Enter Book Title: ")
+        author = input("Enter Author Name: ")
+        year = input("Enter Year: ")
+
+        book = {
+            "id": book_id,
+            "title": title,
+            "author": author,
+            "year": year
+        }
+
+        books.append(book)
+
+        print("Book Added Successfully")
+
+    # View Books
+    elif choice == "2":
+
+        if len(books) == 0:
+            print("No Books Available")
+
+        else:
+            for book in books:
+
+                print("\nBook Details")
+                print("ID:", book["id"])
+                print("Title:", book["title"])
+                print("Author:", book["author"])
+                print("Year:", book["year"])
+
+    # Search Book
+    elif choice == "3":
+
+        search = input("Enter Book Title: ")
+
+        found = False
+
+        for book in books:
+
+            if search.lower() == book["title"].lower():
+
+                print("\nBook Found")
+                print(book)
+
+                found = True
+
+        if not found:
+            print("Book Not Found")
+
+    # Delete Book
+    elif choice == "4":
+
+        delete_id = input("Enter Book ID to Delete: ")
+
+        found = False
+
+        for book in books:
+
+            if delete_id == book["id"]:
+
+                books.remove(book)
+
+                print("Book Deleted Successfully")
+
+                found = True
+                break
+
+        if not found:
+            print("Book Not Found")
+
+    # Exit
+    elif choice == "5":
+
+        print("Thank You")
+        break
+
+    else:
+        print("Invalid Choice")
